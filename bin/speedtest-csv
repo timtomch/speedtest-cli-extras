@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 ###########################################################################
-# Copyright (C) 2014 Henrik Bengtsson
+# Originally written by: Henrik Bengtsson, 2014
+# https://github.com/HenrikBengtsson/speedtest-cli-extras
+# Modified to use IFTTT by: Alasdair Allan, 2015
+# http://makezine.com/projects/send-ticket-isp-when-your-internet-drops/
 # License: GPL (>= 2.1) [http://www.gnu.org/licenses/gpl.html]
 ###########################################################################
 
@@ -76,5 +79,10 @@ if test "$1" = "--standardize"; then
   upload=`echo $upload | sed 's/Mbits/Mbit/'`
 fi
   
-# Output CSV results
-echo $start$sep$stop$sep$from$sep$from_ip$sep$server$sep$server_dist$sep$server_ping$sep$download$sep$upload$sep$share_url
+# Send to IFTTT
+secret_key="SECRET_KEY"
+value1=`echo $server_ping | cut -d" " -f1`
+value2=`echo $download | cut -d" " -f1`
+value3=`echo $upload | cut -d" " -f1` 
+json="{\"value1\":\"${value1}\",\"value2\":\"${value2}\",\"value3\":\"${value3}\"}"
+curl -X POST -H "Content-Type: application/json" -d "${json}" https://maker.ifttt.com/trigger/speedtest/with/key/${secret_key}  
