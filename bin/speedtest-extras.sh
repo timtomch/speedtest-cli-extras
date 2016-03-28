@@ -57,13 +57,6 @@ function str_extract() {
  echo $res
 }
 
-function csv-test() {
-    echo "CSV test function"
-    if test "$csvheader" = true; then
-        echo "headers on"
-    fi
-}
-
 ############################################################################
 # Speedtest
 ############################################################################
@@ -150,7 +143,9 @@ function speedtest-ifttt() {
 ############################################################################
 # Loggly Mode
 ############################################################################
-
+function speedtest-loggly() {
+    
+}
 
 ############################################################################
 # Main
@@ -163,12 +158,10 @@ while getopts "dchi:l" flag; do
     case $flag in
         d)
             # debug mode
-            echo "Debug mode"
             debugmode=true
         ;;
         h)
             # Header will be added to CSV output
-            echo "Header set"
             csvheader=true
         ;;
     esac
@@ -182,17 +175,15 @@ while getopts "dchi:l" flag; do
     case $flag in
         c)
             # CSV mode
-            echo "CSV mode"
             speedtest-csv
         ;;
         i)
             # IFTTT mode
-            echo "IFTTT mode"
             speedtest-ifttt $OPTARG
         ;;
         l)
             # Loggly mode
-            echo "Loggly mode"
+            speedtest-loggly
         ;;
         \?)
             echo "Invalid option: -$OPTARG" >&2
