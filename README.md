@@ -4,6 +4,12 @@ This repository contains tools that enhance the [speedtest-cli] command-line int
 This fork of [speedtest-cli-extras] extends the script by adding options to send results to an 
 [IFTTT Maker Channel] or [Loggly].
 
+## Prerequisites
+This script requires Python and [speedtest-cli]. If you have a working Python installation, chances are you have a package manager such as [pip]. Installing speedtest-cli is then as easy as running
+```
+$ pip install speedtest-cli
+```
+
 ## Usage
 
 ```
@@ -67,3 +73,4 @@ The export to Loggly was inspired by [this post from Stephen Phillips](http://bl
 [speedtest-cli-extras]: https://github.com/HenrikBengtsson/speedtest-cli-extras
 [IFTTT Maker Channel]: https://ifttt.com/maker
 [Loggly]: https://www.loggly.com
+[pip]: https://pip.pypa.io/en/stable/
