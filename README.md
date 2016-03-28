@@ -1,7 +1,7 @@
 # speedtest-cli-extras
 
 This repository contains tools that enhance the [speedtest-cli] command-line interface to [speedtest.net].
-This fork of [speedtest-cli-extras] by Henrik Bengtsson extends the script by adding options to send results to the
+This fork of [speedtest-cli-extras] extends the script by adding options to send results to an 
 [IFTTT Maker Channel] or [Loggly].
 
 ## Usage
@@ -12,7 +12,7 @@ speedtest-extras.sh [-d] [-c] [-h] [-i secret-key] [-l]
     -c: CSV mode
     -h: Print CSV header (only if used together with the -c flag)
     -i: IFTTT mode. Takes the IFTTT Maker Channel secret key as argument (required)
-    -l: Loggly mode
+    -l: Loggly mode (CURRENTLY NOT WORKING)
 ```
 
 ### Example: CSV Mode
