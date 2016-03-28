@@ -17,8 +17,8 @@ $ pip install speedtest-cli
     -d: debugging-mode (reuses previously logged speedtest result instead of queriying speedtest - faster)
     -c: CSV mode
     -h: Print CSV header (only if used together with the -c flag)
-    -i: IFTTT mode. Takes the IFTTT Maker Channel secret key as argument (required)
-    -l: Loggly mode
+    -i: IFTTT mode. Takes an IFTTT Maker Channel secret key as argument (required)
+    -l: Loggly mode. Takes a Loggly Customer Token as argument (required)
 ```
 
 ### Example: CSV Mode
