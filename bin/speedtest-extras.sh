@@ -43,7 +43,7 @@ share_url=""
 sep=";"
 
 # Temporary file holding speedtest-cli output
-log=log/speedtest-extras.log
+log=../log/speedtest-extras.log
 
 # Local functions
 function str_extract() {
