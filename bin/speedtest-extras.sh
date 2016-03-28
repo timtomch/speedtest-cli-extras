@@ -68,7 +68,7 @@ function run-speedtest() {
     
     mkdir -p `dirname $log`
     
-    start=`date +"%Y-%m-%d %H:%M:%S"`
+    start=`date -u +"%Y-%m-%d %H:%M:%S UTC"`
     
     if test "$debugmode" = true && test -f "$log"; then
     # Reuse existing results (useful for debugging)
@@ -78,7 +78,7 @@ function run-speedtest() {
         speedtest-cli --share > $log
     fi
 
-    stop=`date +"%Y-%m-%d %H:%M:%S"`
+    stop=`date -u +"%Y-%m-%d %H:%M:%S UTC"`
     
     # Parse
     from=`str_extract "Testing from "`
