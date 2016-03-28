@@ -18,7 +18,7 @@ $ pip install speedtest-cli
     -c: CSV mode
     -h: Print CSV header (only if used together with the -c flag)
     -i: IFTTT mode. Takes the IFTTT Maker Channel secret key as argument (required)
-    -l: Loggly mode (CURRENTLY NOT WORKING)
+    -l: Loggly mode
 ```
 
 ### Example: CSV Mode
@@ -52,11 +52,17 @@ $ ./speedtest-extras.sh -i <YOUR-PRIVATE-KEY>
 ```
 If the event was successfully triggered, the script will not generate any output. Check your IFTTT channel to make sure everything is working. Connect this channel to another action as you like, for example to add a line to a Google Spreadsheet.
 
+### Example: Loggly Mode
+
+You will need a Loggly account for this to work (the free account should be fine). Use your own customer token (found under Source Setup > Customer Tokens in your Loggly dashboard) to call the script:
+```
+$ ./speedtest-extras.sh -l <YOUR-CUSTOMER-TOKEN>
+```
+If the event was successfully triggered, the script will not generate any output. Check your Loggly events to make sure everything is working.
+
 ## Details
 
-The `speedtest-extras` bash script calls `speedtest-cli`, captures its output, reformats it, and either outputs it on a single line with time stamps and values separated by _semicolons_<sup>*</sup>, sends it to an [IFTTT Maker Channel] or to [Loggly].
-
-Note that the Loggly function is currently not working. Coming soon.
+The `speedtest-extras` bash script calls `speedtest-cli`, captures its output, reformats it, and either outputs it on a single line with time stamps and values separated by _semicolons_<sup>*</sup>, sends it to an [IFTTT Maker Channel] called _speedtest_ or to [Loggly] tagged as _speedtest_.
 
 _Footnotes:_  
 (*) Commas are not safe to use to separate the values, because some test servers report speeds with commas instead of periods.  Because of this, semicolons are used instead.

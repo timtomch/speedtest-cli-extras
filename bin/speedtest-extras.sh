@@ -43,7 +43,10 @@ share_url=""
 sep=";"
 
 # Temporary file holding speedtest-cli output
-log=../log/speedtest-extras.log
+# Get directory in which this script lives
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# Set location of logfile relative to this directory
+log=$DIR/../log/speedtest-extras.log
 
 # Local functions
 function str_extract() {
@@ -144,7 +147,13 @@ function speedtest-ifttt() {
 # Loggly Mode
 ############################################################################
 function speedtest-loggly() {
-    echo "Not yet implemented"
+    cust_token=$1
+    
+    run-speedtest
+    
+    # Send results to Loggly
+    json="{\"start\":\"${start}\",\"stop\":\"${stop}\",\"from\":\"${from}\",\"from_ip\":\"${from_ip}\",\"server\":\"${server}\",\"server_dist\":\"${server_dist}\",\"server_ping\":\"${server_ping}\",\"download\":\"${download}\",\"upload\":\"${upload}\",\"share_url\":\"${share_url}\"}"
+    curl -s -X POST -H "Content-Type: application/json" -d "${json}" http://logs-01.loggly.com/bulk/${cust_token}/tag/speedtest >/dev/null
 }
 
 ############################################################################
@@ -154,7 +163,7 @@ function speedtest-loggly() {
 # The flags will be checked in the order they are specified. In order for the script
 # to work if optional flags like -d or -h are given after the mode flags, we test for them first.
 # 1. Process options
-while getopts "dchi:l" flag; do
+while getopts "dchi:l:" flag; do
     case $flag in
         d)
             # debug mode
@@ -171,7 +180,7 @@ done
 OPTIND=1
 
 # 2. Choose mode and run script
-while getopts "dchi:l" flag; do
+while getopts "dchi:l:" flag; do
     case $flag in
         c)
             # CSV mode
@@ -183,7 +192,7 @@ while getopts "dchi:l" flag; do
         ;;
         l)
             # Loggly mode
-            speedtest-loggly
+            speedtest-loggly $OPTARG
         ;;
         \?)
             echo "Invalid option: -$OPTARG" >&2
