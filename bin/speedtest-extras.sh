@@ -8,8 +8,8 @@
 #    -d: debugging-mode (reuses previously logged speedtest result instead of queriying speedtest - faster)
 #    -c: CSV mode
 #    -h: Print CSV header (only if used together with the -c flag)
-#    -i: IFTTT mode. Takes the IFTTT Maker Channel secret key as argument (required)
-#    -l: Loggly mode
+#    -i: IFTTT mode. Takes an IFTTT Maker Channel secret key as argument (required)
+#    -l: Loggly mode. Takes a Loggly Customer Token as argument (required)
 #
 # Originally written by: Henrik Bengtsson, 2014
 # https://github.com/HenrikBengtsson/speedtest-cli-extras
