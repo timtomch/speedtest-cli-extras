@@ -13,7 +13,7 @@ $ pip install speedtest-cli
 ## Usage
 
 ```
-speedtest-extras.sh [-d] [-c] [-h] [-i secret-key] [-l]
+./speedtest-extras.sh [-d] [-c] [-h] [-i secret-key] [-l]
     -d: debugging-mode (reuses previously logged speedtest result instead of queriying speedtest - faster)
     -c: CSV mode
     -h: Print CSV header (only if used together with the -c flag)
@@ -25,20 +25,20 @@ speedtest-extras.sh [-d] [-c] [-h] [-i secret-key] [-l]
 
 Generate headers (e.g. to start a new CSV file):
 ```
-$ speedtest-extras.sh -c -h
+$ ./speedtest-extras.sh -c -h
 start;stop;from;from_ip;server;server_dist;server_ping;download;upload;share_url
 ```
 
 Run speedtest and output results in CSV format:
 ```
-$ speedtest-extras.sh -c
+$ ./speedtest-extras.sh -c
 2014-09-06 10:07:51;2014-09-06 10:09:31;Comcast Cable;73.162.87.38;AT&T (San Francisco, CA);20.22 km;24.536 ms;44.25 Mbits/s;4.93 Mbits/s;http://www.speedtest.net/result/3741180214.png
 ```
 
 The above examples print the output to STDOUT (the terminal). To record results into a file instead, use something like:
 ```
-$ speedtest-extras.sh -c -h >> file.csv
-$ speedtest-extras.sh -c >> file.csv
+$ ./speedtest-extras.sh -c -h >> file.csv
+$ ./speedtest-extras.sh -c >> file.csv
 ```
 Every subsquent run of speedtest-extras.sh will add another line to _file.csv_.
 
@@ -48,7 +48,7 @@ You will need to setup a [IFTTT Maker Channel] first. Once this is done, IFTTT w
 events to that channel. You will need this key to run speedtest-extras.sh in IFTTT mode.
 
 ```
-$ speedtest-extras.sh -i <YOUR-PRIVATE-KEY>
+$ ./speedtest-extras.sh -i <YOUR-PRIVATE-KEY>
 ```
 If the event was successfully triggered, the script will not generate any output. Check your IFTTT channel to make sure everything is working. Connect this channel to another action as you like, for example to add a line to a Google Spreadsheet.
 
