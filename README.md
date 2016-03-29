@@ -19,6 +19,7 @@ $ pip install speedtest-cli
     -h: Print CSV header (only if used together with the -c flag)
     -i: IFTTT mode. Takes an IFTTT Maker Channel secret key as argument (required)
     -l: Loggly mode. Takes a Loggly Customer Token as argument (required)
+    -j: JSON mode. Posts the result as a JSON document to any URL passed as argument (required)
 ```
 
 ### Example: CSV Mode
@@ -59,6 +60,15 @@ You will need a Loggly account for this to work (the free account should be fine
 $ ./speedtest-extras.sh -l <YOUR-CUSTOMER-TOKEN>
 ```
 If the event was successfully triggered, the script will not generate any output. Check your Loggly events to make sure everything is working.
+
+### Example: JSON Mode
+
+This packages all the results of [speedtest-cli] as a JSON block and sends it to any URL you specify as argument.
+Use it for example to trigger a [Zapier](https://zapier.com) Webook:
+```
+$ ./speedtest-extras.sh -j https://zapier.com/hooks/catch/xxxxxxx/xxxxx
+```
+(replace the dummy URL above by the one Zapier creates for you when setting up your Webhook)
 
 ## Details
 

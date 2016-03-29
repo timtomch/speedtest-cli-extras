@@ -4,12 +4,13 @@
 # Output can be exported as CSV, send to an IFTTT Maker channel or to Loggly
 #
 # Usage:
-# speedtest-extras.sh [-d] [-c] [-h] [-i secret-key] [-l]
+# speedtest-extras.sh [-d] [-c] [-h] [-i secret-key] [-l cust-token] [-j URL]
 #    -d: debugging-mode (reuses previously logged speedtest result instead of queriying speedtest - faster)
 #    -c: CSV mode
 #    -h: Print CSV header (only if used together with the -c flag)
 #    -i: IFTTT mode. Takes an IFTTT Maker Channel secret key as argument (required)
 #    -l: Loggly mode. Takes a Loggly Customer Token as argument (required)
+#    -j: JSON mode. Posts the result as a JSON document to any URL passed as argument (required)
 #
 # Originally written by: Henrik Bengtsson, 2014
 # https://github.com/HenrikBengtsson/speedtest-cli-extras
@@ -113,9 +114,12 @@ function speedtest-csv() {
       download="download"
       upload="upload"
       share_url="share_url"
-    else
-      run-speedtest
+      
+      # Output CSV headers
+      echo $start$sep$stop$sep$from$sep$from_ip$sep$server$sep$server_dist$sep$server_ping$sep$download$sep$upload$sep$share_url\n
     fi
+    
+    run-speedtest
 
     # Standardize units?
     #if test "$1" = "--standardize"; then
@@ -144,16 +148,33 @@ function speedtest-ifttt() {
 }
 
 ############################################################################
+# JSON Mode
+############################################################################
+function speedtest-json() {
+    URL=$1
+    
+    run-speedtest
+    
+    # Build JSON post
+    json="{\"start\":\"${start}\",\"stop\":\"${stop}\",\"from\":\"${from}\",\"from_ip\":\"${from_ip}\",\"server\":\"${server}\",\"server_dist\":\"${server_dist}\",\"server_ping\":\"${server_ping}\",\"download\":\"${download}\",\"upload\":\"${upload}\",\"share_url\":\"${share_url}\"}"
+    
+    # Send it to the URL passed as argument
+    curl -s -X POST -H "Content-Type: application/json" -d "${json}" "${URL}" >/dev/null
+}
+
+
+############################################################################
 # Loggly Mode
+# This is actually a special case of JSON mode.
 ############################################################################
 function speedtest-loggly() {
     cust_token=$1
     
-    run-speedtest
+    # Build Loggly URL
+    loggly_URL="http://logs-01.loggly.com/bulk/${cust_token}/tag/speedtest"
     
-    # Send results to Loggly
-    json="{\"start\":\"${start}\",\"stop\":\"${stop}\",\"from\":\"${from}\",\"from_ip\":\"${from_ip}\",\"server\":\"${server}\",\"server_dist\":\"${server_dist}\",\"server_ping\":\"${server_ping}\",\"download\":\"${download}\",\"upload\":\"${upload}\",\"share_url\":\"${share_url}\"}"
-    curl -s -X POST -H "Content-Type: application/json" -d "${json}" http://logs-01.loggly.com/bulk/${cust_token}/tag/speedtest >/dev/null
+    # Run test and send resulting JSON to Loggly
+    speedtest-json $loggly_URL
 }
 
 ############################################################################
@@ -163,7 +184,7 @@ function speedtest-loggly() {
 # The flags will be checked in the order they are specified. In order for the script
 # to work if optional flags like -d or -h are given after the mode flags, we test for them first.
 # 1. Process options
-while getopts "dchi:l:" flag; do
+while getopts "dchi:l:j:" flag; do
     case $flag in
         d)
             # debug mode
@@ -180,7 +201,7 @@ done
 OPTIND=1
 
 # 2. Choose mode and run script
-while getopts "dchi:l:" flag; do
+while getopts "dchi:l:j:" flag; do
     case $flag in
         c)
             # CSV mode
@@ -193,6 +214,10 @@ while getopts "dchi:l:" flag; do
         l)
             # Loggly mode
             speedtest-loggly $OPTARG
+        ;;
+        j)
+            # JSON mode
+            speedtest-json $OPTARG
         ;;
         \?)
             echo "Invalid option: -$OPTARG" >&2
