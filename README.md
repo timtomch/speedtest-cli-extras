@@ -64,11 +64,12 @@ If the event was successfully triggered, the script will not generate any output
 ### Example: JSON Mode
 
 This packages all the results of [speedtest-cli] as a JSON block and sends it to any URL you specify as argument.
-Use it for example to trigger a [Zapier](https://zapier.com) Webook:
+Use it for example to trigger a [Zapier](https://zapier.com) Webhook:
 ```
 $ ./speedtest-extras.sh -j https://zapier.com/hooks/catch/xxxxxxx/xxxxx
 ```
-(replace the dummy URL above by the one Zapier creates for you when setting up your Webhook)
+(replace the dummy URL above by the one Zapier creates for you when setting up your Webhook).
+I cover this use case in more details [on my blog](https://timtom.ch/2016/03/28/automating-and-sending-speedtest-net-data-to-web-services/).
 
 ## Details
 
